@@ -29,7 +29,6 @@ public abstract class Display {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
-		created = true;
-
 	}
+
 }
