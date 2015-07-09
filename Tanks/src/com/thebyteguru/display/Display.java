@@ -4,6 +4,9 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
@@ -21,12 +24,14 @@ public abstract class Display {
 	private static Graphics bufferGraphics;
 	private static int clearColor;
 
+	private static BufferStrategy bufferStrategy;
+
 	// temp
 	private static float delta = 0;
 
 	// temp end
 
-	public static void create(int width, int height, String title, int _clearColor) {
+	public static void create(int width, int height, String title, int _clearColor, int numBuffers) {
 
 		if (created)
 			return;
@@ -49,6 +54,9 @@ public abstract class Display {
 		bufferGraphics = buffer.getGraphics();
 		clearColor = _clearColor;
 
+		content.createBufferStrategy(numBuffers);
+		bufferStrategy = content.getBufferStrategy();
+
 		created = true;
 
 	}
@@ -60,12 +68,18 @@ public abstract class Display {
 	public static void render() {
 		bufferGraphics.setColor(new Color(0xff0000ff));
 		bufferGraphics.fillOval((int) (350 + (Math.sin(delta) * 200)), 250, 100, 100);
-		delta += 0.02f;
+
+		((Graphics2D) bufferGraphics).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		bufferGraphics.fillOval((int) (500 + (Math.sin(delta) * 200)), 250, 100, 100);
+		((Graphics2D) bufferGraphics).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+
+		// delta += 0.02f;
 	}
 
 	public static void swapBuffers() {
-		Graphics g = content.getGraphics();
+		Graphics g = bufferStrategy.getDrawGraphics();
 		g.drawImage(buffer, 0, 0, null);
+		bufferStrategy.show();
 	}
 
 }
