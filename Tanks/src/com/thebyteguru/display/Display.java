@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 import javax.swing.JFrame;
 
+import com.thebyteguru.IO.Input;
+
 public abstract class Display {
 
 	private static boolean			created	= false;
@@ -83,6 +85,10 @@ public abstract class Display {
 
 		window.setTitle(title);
 
+	}
+
+	public static void addInputListener(Input inputListener) {
+		window.add(inputListener);
 	}
 
 }
