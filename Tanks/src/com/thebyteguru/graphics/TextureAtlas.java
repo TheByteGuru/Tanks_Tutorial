@@ -1,4 +1,4 @@
-package graphics;
+package com.thebyteguru.graphics;
 
 import java.awt.image.BufferedImage;
 

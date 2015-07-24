@@ -1,13 +1,11 @@
 package com.thebyteguru.game;
 
-import graphics.TextureAtlas;
-
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import com.thebyteguru.IO.Input;
 import com.thebyteguru.display.Display;
+import com.thebyteguru.graphics.TextureAtlas;
 import com.thebyteguru.utils.Time;
 
 public class Game implements Runnable {
@@ -29,6 +27,8 @@ public class Game implements Runnable {
 	private Graphics2D			graphics;
 	private Input				input;
 	private TextureAtlas		atlas;
+	private SpriteSheet			sheet;
+	private Sprite				sprite;
 
 	// temp
 	float						x				= 350;
@@ -46,6 +46,8 @@ public class Game implements Runnable {
 		input = new Input();
 		Display.addInputListener(input);
 		atlas = new TextureAtlas(ATLAS_FILE_NAME);
+		sheet = new SpriteSheet(atlas.cut(1 * 16, 9 * 16, 16, 16), 2, 16);
+		sprite = new Sprite(sheet, 1);
 	}
 
 	public synchronized void start() {
@@ -94,12 +96,7 @@ public class Game implements Runnable {
 
 	private void render() {
 		Display.clear();
-		graphics.setColor(Color.white);
-
-		graphics.drawImage(atlas.cut(0, 0, 32, 32), 300, 300, null);
-
-		// graphics.fillOval((int) (x + (Math.sin(delta) * 200)), (int) (y),
-		// (int) (radius * 2), (int) (radius * 2));
+		sprite.render(graphics, x, y);
 		Display.swapBuffers();
 
 	}
