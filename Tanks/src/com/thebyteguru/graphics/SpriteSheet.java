@@ -1,4 +1,4 @@
-package com.thebyteguru.game;
+package com.thebyteguru.graphics;
 
 import java.awt.image.BufferedImage;
 
